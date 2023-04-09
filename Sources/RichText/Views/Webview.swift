@@ -69,18 +69,18 @@ extension WebView {
         }
         
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            // webView.evaluateJavaScript("document.getElementById(\"richtext\(self.parent.code)\").scrollHeight", completionHandler: { (height, _) in
-            //     DispatchQueue.main.async {
-            //         withAnimation(self.parent.conf.transition) {
-            //             if((height as! CGFloat)>100){
-            //                 self.parent.dynamicHeight = 100
-            //             }else{
-            //                 self.parent.dynamicHeight = height as! CGFloat
-            //         }
-            //             }
+            webView.evaluateJavaScript("document.getElementById(\"richtext\(self.parent.code)\").scrollHeight", completionHandler: { (height, _) in
+                DispatchQueue.main.async {
+                    withAnimation(self.parent.conf.transition) {
+                        if((height as! CGFloat)>150){
+                            self.parent.dynamicHeight = 150
+                        }else{
+                            self.parent.dynamicHeight = height as! CGFloat
+                    }
+                        }
                       
-            //     }
-            // })
+                }
+            })
         }
         
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

@@ -26,7 +26,7 @@ public struct Configuration {
     
     public var transition: Animation?
 
-    public var code:String = ""
+    public var code:String
     
     public init(
         customCSS: String = "",

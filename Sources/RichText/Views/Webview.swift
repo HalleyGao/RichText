@@ -33,7 +33,7 @@ struct WebView: UIViewRepresentable {
         
         DispatchQueue.main.async {
             let bundleURL = Bundle.main.bundleURL
-            webview.loadHTMLString(generateHTML(), baseURL: bundleURL)
+            webview.loadHTMLString(generateHTML(self.conf.code), baseURL: bundleURL)
         }
         
         webview.isOpaque = false
@@ -46,7 +46,7 @@ struct WebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {
         DispatchQueue.main.async {
             let bundleURL = Bundle.main.bundleURL
-            uiView.loadHTMLString(generateHTML(), baseURL: bundleURL)
+            uiView.loadHTMLString(generateHTML(self.conf.code), baseURL: bundleURL)
         }
     }
     
@@ -64,7 +64,7 @@ extension WebView {
         }
         
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            webView.evaluateJavaScript("document.getElementById(\"NuPlay_RichText\").offsetHeight", completionHandler: { (height, _) in
+            webView.evaluateJavaScript("document.getElementById(\"richtext\(self.parent.conf.code)\").offsetHeight", completionHandler: { (height, _) in
                 DispatchQueue.main.async {
                     withAnimation(self.parent.conf.transition) {
                         self.parent.dynamicHeight = height as! CGFloat
@@ -113,14 +113,14 @@ extension WebView {
 }
 
 extension WebView {
-    func generateHTML() -> String {
+    func generateHTML(code:String) -> String {
         return """
             <HTML>
             <head>
                 <meta name='viewport' content='width=device-width, shrink-to-fit=YES, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'>
             </head>
             \(generateCSS())
-            <div id="NuPlay_RichText">\(html)</div>
+            <div id="richtext\(code)">\(html)</div>
             </BODY>
             </HTML>
             """

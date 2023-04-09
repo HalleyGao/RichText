@@ -13,11 +13,13 @@ public struct RichText: View {
     let html: String
     var configuration: Configuration
     var placeholder: AnyView?
+    var code:String = ""
     
-    public init(html: String, configuration: Configuration = .init(), placeholder: AnyView? = nil) {
+    public init(html: String, configuration: Configuration = .init(), placeholder: AnyView? = nil,code:String) {
         self.html = html
         self.configuration = configuration
         self.placeholder = placeholder
+        self.code = code
     }
 
     public var body: some View {

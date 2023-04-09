@@ -72,8 +72,13 @@ extension WebView {
             webView.evaluateJavaScript("document.getElementById(\"richtext\(self.parent.code)\").scrollHeight", completionHandler: { (height, _) in
                 DispatchQueue.main.async {
                     withAnimation(self.parent.conf.transition) {
-                        self.parent.dynamicHeight = height as! CGFloat
+                        if((height as! CGFloat)>100){
+                            self.parent.dynamicHeight = 100
+                        }else{
+                            self.parent.dynamicHeight = height as! CGFloat
                     }
+                        }
+                      
                 }
             })
         }

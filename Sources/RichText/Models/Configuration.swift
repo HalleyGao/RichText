@@ -36,7 +36,7 @@ public struct Configuration {
         linkOpenType: LinkOpenType = .SFSafariView(),
         linkColor: ColorSet = .init(light: "007AFF", dark: "0A84FF", isImportant: true),
         isColorsImportant: ColorPreference = .onlyLinks,
-        transition: Animation? = .none,
+        transition: Animation? = .none
        
     ) {
         self.customCSS = customCSS

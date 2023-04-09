@@ -38,7 +38,7 @@ struct WebView: UIViewRepresentable {
         
         DispatchQueue.main.async {
             let bundleURL = Bundle.main.bundleURL
-            webview.loadHTMLString(generateHTML(self.code), baseURL: bundleURL)
+            webview.loadHTMLString(generateHTML(code:self.code), baseURL: bundleURL)
         }
         
         webview.isOpaque = false
@@ -51,7 +51,7 @@ struct WebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {
         DispatchQueue.main.async {
             let bundleURL = Bundle.main.bundleURL
-            uiView.loadHTMLString(generateHTML(self.code), baseURL: bundleURL)
+            uiView.loadHTMLString(generateHTML(code:self.code), baseURL: bundleURL)
         }
     }
     
@@ -69,7 +69,7 @@ extension WebView {
         }
         
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            webView.evaluateJavaScript("document.getElementById(\"richtext\(self.parent.code)\").offsetHeight", completionHandler: { (height, _) in
+            webView.evaluateJavaScript("document.getElementById(\"richtext\(self.parent.code)\").scrollHeight", completionHandler: { (height, _) in
                 DispatchQueue.main.async {
                     withAnimation(self.parent.conf.transition) {
                         self.parent.dynamicHeight = height as! CGFloat

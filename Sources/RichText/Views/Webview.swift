@@ -16,12 +16,16 @@ struct WebView: UIViewRepresentable {
 
     let html: String
     let conf: Configuration
+    let code: String
 
-    init(dynamicHeight: Binding<CGFloat>, html: String, configuration: Configuration) {
+    init(dynamicHeight: Binding<CGFloat>, html: String, configuration: Configuration,code: String) {
         self._dynamicHeight = dynamicHeight
 
         self.html = html
         self.conf = configuration
+        self.code = code
+
+        
     }
 
     func makeUIView(context: Context) -> WKWebView {
@@ -30,10 +34,11 @@ struct WebView: UIViewRepresentable {
         webview.scrollView.bounces = false
         webview.navigationDelegate = context.coordinator
         webview.scrollView.isScrollEnabled = false
+      
         
         DispatchQueue.main.async {
             let bundleURL = Bundle.main.bundleURL
-            webview.loadHTMLString(generateHTML(self.conf.code), baseURL: bundleURL)
+            webview.loadHTMLString(generateHTML(self.code), baseURL: bundleURL)
         }
         
         webview.isOpaque = false
@@ -46,7 +51,7 @@ struct WebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {
         DispatchQueue.main.async {
             let bundleURL = Bundle.main.bundleURL
-            uiView.loadHTMLString(generateHTML(self.conf.code), baseURL: bundleURL)
+            uiView.loadHTMLString(generateHTML(self.code), baseURL: bundleURL)
         }
     }
     
@@ -64,7 +69,7 @@ extension WebView {
         }
         
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            webView.evaluateJavaScript("document.getElementById(\"richtext\(self.parent.conf.code)\").offsetHeight", completionHandler: { (height, _) in
+            webView.evaluateJavaScript("document.getElementById(\"richtext\(self.parent.code)\").offsetHeight", completionHandler: { (height, _) in
                 DispatchQueue.main.async {
                     withAnimation(self.parent.conf.transition) {
                         self.parent.dynamicHeight = height as! CGFloat

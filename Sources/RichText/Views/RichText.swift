@@ -15,15 +15,16 @@ public struct RichText: View {
     var placeholder: AnyView?
     var code:String = ""
     
-    public init(html: String, configuration: Configuration = .init(), placeholder: AnyView? = nil) {
+    public init(html: String,code:String, configuration: Configuration = .init(), placeholder: AnyView? = nil) {
         self.html = html
         self.configuration = configuration
         self.placeholder = placeholder
+        self.code = code
     }
 
     public var body: some View {
         ZStack(alignment: .top) {
-            WebView(dynamicHeight: $dynamicHeight, html: html, configuration: configuration)
+            WebView(dynamicHeight: $dynamicHeight, html: html, configuration: configuration,code: code)
                 .frame(height: dynamicHeight)
 
             if self.dynamicHeight == 0 {
@@ -35,6 +36,6 @@ public struct RichText: View {
 
 struct RichText_Previews: PreviewProvider {
     static var previews: some View {
-        RichText(html: "")
+        RichText(html: "",code:"")
     }
 }
